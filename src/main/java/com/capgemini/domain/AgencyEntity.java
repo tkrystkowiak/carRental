@@ -3,6 +3,7 @@ package com.capgemini.domain;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +20,8 @@ public class AgencyEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = false, length = 150)
-	private String address;
+	@Embedded
+	private AddressEmbedded address;
 	
 	@Column(nullable = false, length = 12)
 	private String phoneNumber;
@@ -28,16 +29,16 @@ public class AgencyEntity implements Serializable {
 	public AgencyEntity() {
 	}
 
-	public AgencyEntity(String address, String phoneNumber) {
+	public AgencyEntity(AddressEmbedded address, String phoneNumber) {
 		this.address = address;
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getAddress() {
+	public AddressEmbedded getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(AddressEmbedded address) {
 		this.address = address;
 	}
 

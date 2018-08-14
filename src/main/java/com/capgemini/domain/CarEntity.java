@@ -2,6 +2,8 @@ package com.capgemini.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.capgemini.domain.RentalEntity.RentalBuilder;
 
 @Entity
 @Table(name = "CARS")
@@ -24,7 +28,7 @@ public class CarEntity implements Serializable {
     private Long id;
 
 	@Column(nullable = false, length = 50)
-    private String carType;
+    private String type;
 	
 	@Column(nullable = false, length = 50)
     private String brand;
@@ -45,22 +49,21 @@ public class CarEntity implements Serializable {
 	private int yearOfProduction;
 	
 	@ManyToMany
-	@JoinTable(name = "car_employee", joinColumns = { @JoinColumn(name = "car_id") },inverseJoinColumns = { @JoinColumn(name = "employee_id") }
-          )
-private List<EmployeeEntity> listOfCarers;
+	@JoinTable(name = "car_employee", joinColumns = { @JoinColumn(name = "car_id") },inverseJoinColumns = { @JoinColumn(name = "employee_id") })
+	private List<EmployeeEntity> listOfGuardians;
 
 	public CarEntity() {
 	}
 
-	public CarEntity(String carType, String brand, int engineCapacity, int mileage, String color, int horsePower,
-			int yearOfProduction) {
-		this.carType = carType;
-		this.brand = brand;
-		this.engineCapacity = engineCapacity;
-		this.mileage = mileage;
-		this.color = color;
-		this.horsePower = horsePower;
-		this.yearOfProduction = yearOfProduction;
+	public CarEntity(CarBuilder builder) {
+		this.type = builder.type;
+		this.brand = builder.brand;
+		this.engineCapacity = builder.engineCapacity;
+		this.mileage = builder.mileage;
+		this.color = builder.color;
+		this.horsePower = builder.horsePower;
+		this.yearOfProduction = builder.yearOfProduction;
+		this.listOfGuardians = builder.listOfGuardians;
 	}
 	
 	public Long getId() {
@@ -68,11 +71,11 @@ private List<EmployeeEntity> listOfCarers;
 	}
 
 	public String getCarType() {
-		return carType;
+		return type;
 	}
 
-	public void setCarType(String carType) {
-		this.carType = carType;
+	public void setCarType(String type) {
+		this.type = type;
 	}
 
 	public String getBrand() {
@@ -121,6 +124,86 @@ private List<EmployeeEntity> listOfCarers;
 
 	public void setYearOfProduction(int yearOfProduction) {
 		this.yearOfProduction = yearOfProduction;
+	}
+	
+	public List<EmployeeEntity> getListOfGuardians() {
+		return listOfGuardians;
+	}
+
+	public void setListOfGuardians(List<EmployeeEntity> listOfGuardians) {
+		this.listOfGuardians = listOfGuardians;
+	}
+	
+	public static CarBuilder newBuilder() {
+        return new CarBuilder();
+    }
+	
+	public static class CarBuilder {
+		
+	    private String type;
+	    private String brand;
+	    private int engineCapacity;
+	    private int mileage;
+		private String color;
+		private int horsePower;
+		private int yearOfProduction;
+		private List<EmployeeEntity> listOfGuardians;
+		
+		
+		public CarBuilder withType(String type) {
+			this.type = type;
+			return this;
+        }
+		
+		public CarBuilder withBrand(String brand) {
+			this.brand = brand;
+			return this;
+        }
+		
+		public CarBuilder withEngineCapacity(int engineCapacity) {
+			this.engineCapacity = engineCapacity;
+			return this;
+        }
+		
+		public CarBuilder withMileage(int mileage) {
+			this.mileage = mileage;
+			return this;
+        }
+		
+		public CarBuilder withColor(String color) {
+			this.color = color;
+			return this;
+        }
+		
+		public CarBuilder withHorsePower(int horsePower) {
+			this.horsePower = horsePower;
+			return this;
+        }
+		
+		public CarBuilder withYearOfProduction(int yearOfProduction) {
+			this.yearOfProduction = yearOfProduction;
+			return this;
+        }
+		
+		public CarBuilder withGuardiansList(List<EmployeeEntity> listOfGuardians){
+			this.listOfGuardians = listOfGuardians;
+			return this;
+		}
+		
+
+		public CarEntity build() throws MandatoryValueNotFilledException {
+			if(isFilled()){
+			return new CarEntity(this);
+			}
+			throw new MandatoryValueNotFilledException();
+			
+		}
+		
+		private boolean isFilled(){
+			return Stream.of(type,brand,engineCapacity,mileage,color,horsePower,yearOfProduction)
+			      .noneMatch(Objects::isNull);
+			}
+		
 	}
 	
 }

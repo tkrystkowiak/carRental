@@ -2,6 +2,8 @@ package com.capgemini.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,15 +54,14 @@ public class RentalEntity implements Serializable {
 	public RentalEntity() {
 	}
 
-	public RentalEntity(CustomerEntity customer, CarEntity car, AgencyEntity rentAgencyId, Date rentDate,
-			AgencyEntity returnAgencyId, Date returnDate, int charge) {
-		this.customer = customer;
-		this.car = car;
-		this.rentAgencyId = rentAgencyId;
-		this.rentDate = rentDate;
-		this.returnAgencyId = returnAgencyId;
-		this.returnDate = returnDate;
-		this.charge = charge;
+	private RentalEntity(RentalBuilder builder) {
+		this.customer = builder.customer;
+		this.car = builder.car;
+		this.rentAgencyId = builder.rentAgencyId;
+		this.rentDate = builder.rentDate;
+		this.returnAgencyId = builder.returnAgencyId;
+		this.returnDate = builder.returnDate;
+		this.charge = builder.charge;
 	}
 
 	public CustomerEntity getCustomer() {
@@ -121,6 +122,68 @@ public class RentalEntity implements Serializable {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public static class RentalBuilder{
+		
+		private CustomerEntity customer;
+		private CarEntity car;
+		private AgencyEntity rentAgencyId;
+		private Date rentDate;
+		private AgencyEntity returnAgencyId;
+		private Date returnDate;
+		private int charge;
+		
+		public RentalBuilder withCustomer(CustomerEntity customer) {
+            this.customer = customer;
+            return this;
+        }
+		
+		public RentalBuilder withCar(CarEntity car) {
+            this.car = car;
+            return this;
+        }
+		
+		public RentalBuilder withRentAgencyId(AgencyEntity rentAgencyId) {
+            this.rentAgencyId = rentAgencyId;
+            return this;
+        }
+		
+		public RentalBuilder withRentDate(Date rentDate) {
+            this.rentDate = rentDate;
+            return this;
+        }
+		
+		public RentalBuilder withReturnAgencyId(AgencyEntity returnAgencyId) {
+            this.returnAgencyId = returnAgencyId;
+            return this;
+        }
+		
+		public RentalBuilder withReturnDate(Date returnDate) {
+            this.returnDate = returnDate;
+            return this;
+        }
+		
+		public RentalBuilder withCharge(int charge) {
+            this.charge = charge;
+            return this;
+        }
+		
+		public RentalEntity build() throws MandatoryValueNotFilledException {
+			if(isFilled()){
+			return new RentalEntity(this);
+			}
+			throw new MandatoryValueNotFilledException();
+			
+		}
+		
+		private boolean isFilled(){
+			return Stream.of(customer,car,rentAgencyId,rentDate,returnAgencyId,returnDate,charge)
+			      .noneMatch(Objects::isNull);
+			}	
+		
+		
+		
 	}
 	
 }
