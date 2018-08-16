@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.capgemini.domain.AddressEmbedded;
 import com.capgemini.domain.AgencyEntity;
 import com.capgemini.domain.CarEntity;
 import com.capgemini.domain.EmployeeEntity;
@@ -38,12 +39,16 @@ public class EmployeeDaoTest {
 						.withFirstName("Albert")
 						.withLastName("Einstein")
 						.withBirthDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("1989-02-28").getTime()))
-						.withAddress("Krajewskiego 2 01-520 Warszawa")
 						.withPhoneNumber("987124098")
+						.build())
+				.withAddress(AddressEmbedded.newBuilder()
+						.withCity("Warszawa")
+						.withStreet("Krajewskiego")
+						.withZipcode("01-520")
+						.withLocal("2")
 						.build())
 				.withPosition(new PositionEntity())
 				.withAgency(new AgencyEntity())
-				.withCarList(new ArrayList<CarEntity>())
 				.build();			
 	}
 	

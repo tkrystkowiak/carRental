@@ -38,6 +38,10 @@ public class AgencyEntity implements Serializable {
 		return address;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public void setAddress(AddressEmbedded address) {
 		this.address = address;
 	}

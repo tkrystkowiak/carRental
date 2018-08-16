@@ -25,6 +25,10 @@ public class PositionEntity implements Serializable {
 	public PositionEntity() {
 	}
 
+	public PositionEntity(String title) {
+		this.title = title;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -36,9 +40,11 @@ public class PositionEntity implements Serializable {
 	public Long getId() {
 		return id;
 	}
-	
-	
-	
-	
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
+	
 }

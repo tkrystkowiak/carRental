@@ -25,6 +25,7 @@ public class BookMapper {
 	public static BookEntity toBookEntity(BookTO bookTO) {
 		if (bookTO == null)
 			return null;
+		
 		BookEntity bookEntity = new BookEntity();
 		Set<AuthorEntity> authors = AuthorMapper.map2Entities(bookTO.getAuthors());
 		bookEntity.setAuthors(authors);

@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.capgemini.domain.CarEntity.Builder;
+
 
 @Entity
 @Table(name = "EMPLOYEES")
@@ -30,7 +32,7 @@ public class EmployeeEntity implements Serializable {
 	
 	@Embedded
 	private PersonalDataEmbedded personalData;
-	
+
 	@Embedded
 	private AddressEmbedded address;
 	
@@ -42,17 +44,14 @@ public class EmployeeEntity implements Serializable {
 	@JoinColumn(name = "position_id")
 	private PositionEntity position;
 	
-	@ManyToMany(mappedBy = "listOfGuardians", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<CarEntity> carList;
 
 	public EmployeeEntity() {}
 
-	public EmployeeEntity(EmployeeBuilder builder) {
+	public EmployeeEntity(Builder builder) {
 		this.personalData = builder.personalData;
 		this.address = builder.address;
 		this.agency = builder.agency;
 		this.position = builder.position;
-		this.carList = builder.carList;
 	}
 	
 	public PersonalDataEmbedded getPersonalData() {
@@ -79,52 +78,56 @@ public class EmployeeEntity implements Serializable {
 		this.position = position;
 	}
 
-	public List<CarEntity> getCarList() {
-		return carList;
-	}
-
-	public void setCarList(List<CarEntity> carList) {
-		this.carList = carList;
-	}
-
 	public Long getId() {
 		return id;
 	}
-	
-	public static EmployeeBuilder newBuilder(){
-		return new EmployeeBuilder();
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
-	public static class EmployeeBuilder {
+	public void setAddress(AddressEmbedded address) {
+		this.address = address;
+	}
+	
+	public AddressEmbedded getAddress() {
+		return address;
+	}
+	
+	public static Builder newBuilder(){
+		return new Builder();
+	}
+	
+	public static class Builder {
 		
+		private long id;
 		private PersonalDataEmbedded personalData;
 		private AddressEmbedded address;
 		private AgencyEntity agency;
 		private PositionEntity position;
-		private List<CarEntity> carList;
 		
-		public EmployeeBuilder withPersonalData(PersonalDataEmbedded personalData){
+		public Builder withId(long id){
+			this.id = id;
+			return this;
+		}
+		
+		public Builder withPersonalData(PersonalDataEmbedded personalData){
 			this.personalData = personalData;
 			return this;
 		}
 		
-		public EmployeeBuilder withAddress(AddressEmbedded address){
+		public Builder withAddress(AddressEmbedded address){
 			this.address = address;
 			return this;
 		}
 		
-		public EmployeeBuilder withAgency(AgencyEntity agency){
+		public Builder withAgency(AgencyEntity agency){
 			this.agency = agency;
 			return this;
 		}
 		
-		public EmployeeBuilder withPosition(PositionEntity position){
+		public Builder withPosition(PositionEntity position){
 			this.position = position;
-			return this;
-		}
-		
-		public EmployeeBuilder withCarList(List<CarEntity> carList){
-			this.carList = carList;
 			return this;
 		}
 		
@@ -133,13 +136,12 @@ public class EmployeeEntity implements Serializable {
 			return new EmployeeEntity(this);
 			}
 			throw new MandatoryValueNotFilledException();
-			
 		}
 		
 		private boolean isFilled(){
-			return Stream.of(personalData,agency,position,carList)
+			return Stream.of(personalData,agency,position)
 			      .noneMatch(Objects::isNull);
-			}
+		}
 		
 	}
 }

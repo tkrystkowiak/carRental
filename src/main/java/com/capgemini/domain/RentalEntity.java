@@ -54,7 +54,7 @@ public class RentalEntity implements Serializable {
 	public RentalEntity() {
 	}
 
-	private RentalEntity(RentalBuilder builder) {
+	private RentalEntity(Builder builder) {
 		this.customer = builder.customer;
 		this.car = builder.car;
 		this.rentAgencyId = builder.rentAgencyId;
@@ -124,7 +124,7 @@ public class RentalEntity implements Serializable {
 		return id;
 	}
 	
-	public static class RentalBuilder{
+	public static class Builder{
 		
 		private CustomerEntity customer;
 		private CarEntity car;
@@ -134,37 +134,37 @@ public class RentalEntity implements Serializable {
 		private Date returnDate;
 		private int charge;
 		
-		public RentalBuilder withCustomer(CustomerEntity customer) {
+		public Builder withCustomer(CustomerEntity customer) {
             this.customer = customer;
             return this;
         }
 		
-		public RentalBuilder withCar(CarEntity car) {
+		public Builder withCar(CarEntity car) {
             this.car = car;
             return this;
         }
 		
-		public RentalBuilder withRentAgencyId(AgencyEntity rentAgencyId) {
+		public Builder withRentAgencyId(AgencyEntity rentAgencyId) {
             this.rentAgencyId = rentAgencyId;
             return this;
         }
 		
-		public RentalBuilder withRentDate(Date rentDate) {
+		public Builder withRentDate(Date rentDate) {
             this.rentDate = rentDate;
             return this;
         }
 		
-		public RentalBuilder withReturnAgencyId(AgencyEntity returnAgencyId) {
+		public Builder withReturnAgencyId(AgencyEntity returnAgencyId) {
             this.returnAgencyId = returnAgencyId;
             return this;
         }
 		
-		public RentalBuilder withReturnDate(Date returnDate) {
+		public Builder withReturnDate(Date returnDate) {
             this.returnDate = returnDate;
             return this;
         }
 		
-		public RentalBuilder withCharge(int charge) {
+		public Builder withCharge(int charge) {
             this.charge = charge;
             return this;
         }

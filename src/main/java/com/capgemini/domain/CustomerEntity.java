@@ -23,19 +23,35 @@ public class CustomerEntity implements Serializable {
 	@Embedded
 	private PersonalDataEmbedded personalData;
 	
+	@Embedded
+	private AddressEmbedded address;
+	
 	@Column(nullable = false, length = 12)
 	private String creditCardNumber;
 	
+	public AddressEmbedded getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEmbedded address) {
+		this.address = address;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Column(nullable = false, length = 245)
 	private String email;
 
 	public CustomerEntity() {
 	}
 
-	public CustomerEntity(PersonalDataEmbedded personalData, String creditCardNumber, String email) {
-		this.personalData = personalData;
-		this.creditCardNumber = creditCardNumber;
-		this.email = email;
+	public CustomerEntity(Builder builder) {
+		this.personalData = builder.personalData;
+		this.address = builder.address;
+		this.creditCardNumber = builder.creditCardNumber;
+		this.email = builder.email;
 	}
 	
 	public PersonalDataEmbedded getPersonalData() {
@@ -66,4 +82,36 @@ public class CustomerEntity implements Serializable {
 		return id;
 	}
 	
+	public static class Builder{
+		
+		private PersonalDataEmbedded personalData;
+		private AddressEmbedded address;
+		private String email;
+		private String creditCardNumber;
+		
+		public Builder withPersonalData(PersonalDataEmbedded personalData){
+			this.personalData = personalData;
+			return this;
+		}
+		
+		public Builder withAddres(AddressEmbedded address){
+			this.address = address;
+			return this;
+		}
+		
+		public Builder withEmail(String email){
+			this.email = email;
+			return this;
+		}
+		
+		public Builder withCreditCardNumber(String creditCardNumber){
+			this.creditCardNumber = creditCardNumber;
+			return this;
+		}
+		
+		public CustomerEntity build(){
+			return new CustomerEntity(this);
+		}
+		
+	}
 }

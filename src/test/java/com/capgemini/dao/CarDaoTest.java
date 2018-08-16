@@ -81,7 +81,6 @@ public class CarDaoTest {
 						.build())
 				.withPosition(new PositionEntity())
 				.withAgency(new AgencyEntity())
-				.withCarList(new ArrayList<CarEntity>())
 				.build();
 		CarEntity car2 = carDao.findOne(1L);
 		carDao.assignToGuardian(1L, employee);

@@ -1,64 +1,26 @@
-package com.capgemini.domain;
+package com.capgemini.types;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import com.capgemini.domain.EmployeeEntity;
+import com.capgemini.domain.MandatoryValueNotFilledException;
 
-import com.capgemini.domain.RentalEntity.Builder;
-
-@Entity
-@Table(name = "CARS")
-public class CarEntity implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class CarTO {
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-	@Column(nullable = false, length = 50)
     private String type;
-	
-	@Column(nullable = false, length = 50)
     private String brand;
-	
-	@Column(nullable = false)
     private int engineCapacity;
-	
-	@Column(nullable = false)
     private int mileage;
-	
-	@Column(nullable = false, length = 50)
 	private String color;
-	
-	@Column(nullable = false)
 	private int horsePower;
-	
-	@Column(nullable = false)
 	private int yearOfProduction;
-	
-	@ManyToMany
-	@JoinTable(name = "car_employee", joinColumns = { @JoinColumn(name = "car_id") },inverseJoinColumns = { @JoinColumn(name = "employee_id") })
-	private List<EmployeeEntity> listOfGuardians;
+	private List<EmployeeTO> listOfGuardians;
 
-	public CarEntity() {
-	}
-
-	public CarEntity(Builder builder) {
-		if(builder.id!=0){
-			this.id = builder.id;
-		}
+	public CarTO(Builder builder) {
+		this.id = builder.id;
 		this.type = builder.type;
 		this.brand = builder.brand;
 		this.engineCapacity = builder.engineCapacity;
@@ -133,11 +95,11 @@ public class CarEntity implements Serializable {
 		this.yearOfProduction = yearOfProduction;
 	}
 	
-	public List<EmployeeEntity> getListOfGuardians() {
+	public List<EmployeeTO> getListOfGuardians() {
 		return listOfGuardians;
 	}
 
-	public void setListOfGuardians(List<EmployeeEntity> listOfGuardians) {
+	public void setListOfGuardians(List<EmployeeTO> listOfGuardians) {
 		this.listOfGuardians = listOfGuardians;
 	}
 	
@@ -155,7 +117,8 @@ public class CarEntity implements Serializable {
 		private String color;
 		private int horsePower;
 		private int yearOfProduction;
-		private List<EmployeeEntity> listOfGuardians;
+		private List<EmployeeTO> listOfGuardians;
+		
 		
 		public Builder withId(long id){
 			this.id = id;
@@ -197,15 +160,15 @@ public class CarEntity implements Serializable {
 			return this;
         }
 		
-		public Builder withGuardiansList(List<EmployeeEntity> listOfGuardians){
-			this.listOfGuardians = listOfGuardians;
+		public Builder withGuardiansList(List<EmployeeTO> list){
+			this.listOfGuardians = list;
 			return this;
 		}
 		
 
-		public CarEntity build() throws MandatoryValueNotFilledException {
+		public CarTO build() throws MandatoryValueNotFilledException {
 			if(isFilled()){
-			return new CarEntity(this);
+			return new CarTO(this);
 			}
 			throw new MandatoryValueNotFilledException();
 			
