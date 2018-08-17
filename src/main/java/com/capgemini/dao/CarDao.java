@@ -12,7 +12,5 @@ public interface CarDao extends Dao<CarEntity, Long> {
 	List<CarEntity> findByTypeAndBrand(String Type, String brand);
 	
 	List<CarEntity> findByGuardian(long guardianId);
-
-	void assignToGuardian(long carId, EmployeeEntity guardian);
 	
 }

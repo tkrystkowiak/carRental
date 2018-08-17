@@ -150,11 +150,11 @@ public class CarEntity implements Serializable {
 		private long id;
 	    private String type;
 	    private String brand;
-	    private int engineCapacity;
-	    private int mileage;
+	    private Integer engineCapacity;
+	    private Integer mileage;
 		private String color;
-		private int horsePower;
-		private int yearOfProduction;
+		private Integer horsePower;
+		private Integer yearOfProduction;
 		private List<EmployeeEntity> listOfGuardians;
 		
 		public Builder withId(long id){

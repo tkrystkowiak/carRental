@@ -56,8 +56,18 @@ public class EmployeeMapper {
 		for(EmployeeTO employee : employeeTOs){
 			mapped.add(onEntity(employee));
 		}
-		return mapped;
-		
+		return mapped;	
 	}
+	
+	public static List<Long> onIds(List<EmployeeEntity> employeeEntities) {
+		
+		List<Long> mapped = new ArrayList<Long>();
+		for(EmployeeEntity employee : employeeEntities){
+			mapped.add(employee.getId());
+		}
+		return mapped;
+	}
+	
+	
 	
 }

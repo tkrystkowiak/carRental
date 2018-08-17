@@ -1,8 +1,6 @@
 package com.capgemini.mappers;
 
-import com.capgemini.domain.PersonalDataEmbedded;
 import com.capgemini.domain.PositionEntity;
-import com.capgemini.types.PersonalDataTO;
 import com.capgemini.types.PositionTO;
 
 public class PositionMapper {

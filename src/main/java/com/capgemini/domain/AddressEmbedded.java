@@ -1,13 +1,10 @@
 package com.capgemini.domain;
 
-import java.sql.Date;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-
-import com.capgemini.domain.PersonalDataEmbedded.Builder;
 
 @Embeddable
 public class AddressEmbedded {

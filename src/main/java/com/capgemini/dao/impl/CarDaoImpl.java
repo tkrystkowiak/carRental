@@ -13,13 +13,6 @@ import com.capgemini.domain.EmployeeEntity;
 @Repository
 public class CarDaoImpl extends AbstractDao<CarEntity, Long> implements CarDao {
 
-	@Override
-	public void assignToGuardian(long carId,EmployeeEntity guardian) {
-		TypedQuery<CarEntity> query = entityManager.createQuery(
-			 	"update CarEntity car set listOfGuardians = :guardian where id like :car_id)", CarEntity.class);
-        	query.setParameter("guardian", guardian);
-        	query.setParameter("car_id", carId);
-	}
 
 	@Override
 	public List<CarEntity> findByTypeAndBrand(String type, String brand) {
@@ -33,8 +26,11 @@ public class CarDaoImpl extends AbstractDao<CarEntity, Long> implements CarDao {
 
 	@Override
 	public List<CarEntity> findByGuardian(long guardianId) {
-		// TODO Auto-generated method stub
-		return null;
+		EmployeeEntity guardian = entityManager.getReference(EmployeeEntity.class, guardianId);
+		TypedQuery<CarEntity> query = entityManager.createQuery(
+			 	"select car from CarEntity car where :guardian member of listOfGuardians" , CarEntity.class);
+		query.setParameter("guardian", guardian); 	
+		return query.getResultList();
 	}
 
 }
