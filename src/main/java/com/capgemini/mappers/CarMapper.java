@@ -9,6 +9,12 @@ import com.capgemini.domain.CarEntity;
 import com.capgemini.exceptions.MandatoryValueNotFilledException;
 import com.capgemini.types.CarTO;
 
+/**
+ * Maps car objects
+ * 
+ * @author TKRYSTKO
+ *
+ */
 @Component
 public class CarMapper {
 	
@@ -18,6 +24,13 @@ public class CarMapper {
 		this.employeeMapper = employeeMapper;
 	}
 
+	/**
+	 * Maps single Entity on single TO
+	 * 
+	 * @param carEntity
+	 * @return mapped car transfer object
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public CarTO onTO(CarEntity carEntity) throws MandatoryValueNotFilledException {
 
 		if (carEntity == null)
@@ -38,6 +51,13 @@ public class CarMapper {
 
 	}
 
+	/**
+	 * maps single TO on single Entity
+	 * 
+	 * @param carTO
+	 * @return mapped car entity
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public CarEntity onEntity(CarTO carTO) throws MandatoryValueNotFilledException {
 
 		if (carTO == null)
@@ -58,6 +78,13 @@ public class CarMapper {
 
 	}
 	
+	/**
+	 * Maps multiple entities on TOs
+	 * 
+	 * @param carEntities
+	 * @return List of mapped car transfer objects
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public List<CarTO> onTOs(List<CarEntity> carEntities) throws MandatoryValueNotFilledException {
 		
 		List<CarTO> mapped = new ArrayList<CarTO>();
@@ -67,6 +94,13 @@ public class CarMapper {
 		return mapped;
 	}
 
+	/**
+	 * Maps multiple TOs on Entities
+	 * 
+	 * @param carTOs
+	 * @return List of mapped car entities
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public List<CarEntity> onEntities(List<CarTO> carTOs) throws MandatoryValueNotFilledException {
 		
 		List<CarEntity> mapped = new ArrayList<CarEntity>();

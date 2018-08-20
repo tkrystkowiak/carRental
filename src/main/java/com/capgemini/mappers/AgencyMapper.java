@@ -7,6 +7,12 @@ import com.capgemini.domain.AgencyEntity;
 import com.capgemini.exceptions.MandatoryValueNotFilledException;
 import com.capgemini.types.AgencyTO;
 
+/**
+ * Maps agency objects
+ * 
+ * @author TKRYSTKO
+ *
+ */
 @Component
 public class AgencyMapper {
 	
@@ -18,6 +24,13 @@ public class AgencyMapper {
 		this.addressMapper = addressMapper;
 	}
 
+	/**
+	 * Maps single Entity on Single TO
+	 * 
+	 * @param agencyEntity
+	 * @return mapped Agency transfer object
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public AgencyTO onTO(AgencyEntity agencyEntity) throws MandatoryValueNotFilledException{
 		
 		if (agencyEntity == null)
@@ -29,6 +42,13 @@ public class AgencyMapper {
 		return mapped;
 	}
 	
+	/**
+	 * Maps single TO on single Entity
+	 * 
+	 * @param agencyTO
+	 * @return mapped Agency entity
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public AgencyEntity onEntity(AgencyTO agencyTO) throws MandatoryValueNotFilledException{
 		
 		if (agencyTO == null)

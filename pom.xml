@@ -39,20 +39,28 @@
 			<artifactId>hsqldb</artifactId>
 		</dependency>
 		<dependency>
-   			<groupId>mysql</groupId>
-   			<artifactId>mysql-connector-java</artifactId>
-   			<version>5.1.46</version>
+			   
+			<groupId>mysql</groupId>
+			   
+			<artifactId>mysql-connector-java</artifactId>
+			   
+			<version>5.1.46</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.apache.logging.log4j</groupId>
-    		<artifactId>log4j-core</artifactId>
-    		<version>2.11.1</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.11.1</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.mockito</groupId>
-    		<artifactId>mockito-all</artifactId>
-    		<version>1.10.19</version>
-    		<scope>test</scope>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.interceptor</groupId>
+			<artifactId>javax.interceptor-api</artifactId>
+			<version>1.2.2</version>
 		</dependency>
 	</dependencies>
 

@@ -10,6 +10,12 @@ import com.capgemini.domain.EmployeeEntity;
 import com.capgemini.exceptions.MandatoryValueNotFilledException;
 import com.capgemini.types.EmployeeTO;
 
+/**
+ * Maps employee objects
+ * 
+ * @author TKRYSTKO
+ *
+ */
 @Component
 public class EmployeeMapper {
 	
@@ -27,6 +33,13 @@ public class EmployeeMapper {
 		this.positionMapper = positionMapper;
 	}
 
+	/**
+	 * Maps single Entity on TO
+	 * 
+	 * @param employeeEntity
+	 * @return mapped employee transfer object
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public EmployeeTO onTO(EmployeeEntity employeeEntity) throws MandatoryValueNotFilledException {
 
 		if (employeeEntity == null)
@@ -43,6 +56,13 @@ public class EmployeeMapper {
 
 	}
 	
+	/**
+	 * Maps single TO on Entity
+	 * 
+	 * @param employeeTO
+	 * @return mapped employee entity
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public EmployeeEntity onEntity(EmployeeTO employeeTO) throws MandatoryValueNotFilledException {
 
 		if (employeeTO == null)
@@ -59,6 +79,13 @@ public class EmployeeMapper {
 	
 	}
 	
+	/**
+	 * Maps multiple Entities on TOs
+	 * 
+	 * @param employeeEntities
+	 * @return List of mapped employee transfer objects
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public List<EmployeeTO> onTOs(List<EmployeeEntity> employeeEntities) throws MandatoryValueNotFilledException {
 		
 		if (employeeEntities == null)
@@ -71,6 +98,13 @@ public class EmployeeMapper {
 		return mapped;
 	}
 
+	/**
+	 * Maps multiple TOs on Entities
+	 * 
+	 * @param employeeTOs
+	 * @return List of mapped employee entities
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public List<EmployeeEntity> onEntities(List<EmployeeTO> employeeTOs) throws MandatoryValueNotFilledException {
 		
 		if (employeeTOs == null)
@@ -83,6 +117,12 @@ public class EmployeeMapper {
 		return mapped;	
 	}
 	
+	/**
+	 * Maps multiple Entities on ids
+	 * 
+	 * @param employeeEntities
+	 * @return List of employees's ids
+	 */
 	public List<Long> onIds(List<EmployeeEntity> employeeEntities) {
 		
 		if (employeeEntities == null)

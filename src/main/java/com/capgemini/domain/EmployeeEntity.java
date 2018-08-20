@@ -51,6 +51,7 @@ public class EmployeeEntity implements Serializable {
 	public EmployeeEntity() {}
 
 	public EmployeeEntity(Builder builder) {
+		this.id = builder.id;
 		this.personalData = builder.personalData;
 		this.address = builder.address;
 		this.agency = builder.agency;

@@ -1,0 +1,9 @@
+com.capgemini
+com.capgemini.dao
+com.capgemini.dao.impl
+com.capgemini.domain
+com.capgemini.exceptions
+com.capgemini.mappers
+com.capgemini.service
+com.capgemini.service.impl
+com.capgemini.types

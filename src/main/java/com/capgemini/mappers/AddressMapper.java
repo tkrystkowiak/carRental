@@ -6,9 +6,22 @@ import com.capgemini.domain.AddressEmbedded;
 import com.capgemini.exceptions.MandatoryValueNotFilledException;
 import com.capgemini.types.AddressTO;
 
+/**
+ * Maps address objects
+ * 
+ * @author TKRYSTKO
+ *
+ */
 @Component
 public class AddressMapper {
 	
+	/**
+	 * maps from single Entity to single TO
+	 * 
+	 * @param address
+	 * @return mapped Address transfer Object
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public AddressTO onTO(AddressEmbedded address) throws MandatoryValueNotFilledException{
 		
 		if (address == null)
@@ -22,6 +35,13 @@ public class AddressMapper {
 		return mapped;
 	}
 	
+	/**
+	 * maps from single TO to single Entity
+	 * 
+	 * @param addressTO
+	 * @return mapped Address entity
+	 * @throws MandatoryValueNotFilledException
+	 */
 	public AddressEmbedded onEntity(AddressTO addressTO) throws MandatoryValueNotFilledException{
 		
 		if (addressTO == null)
