@@ -23,7 +23,7 @@ public class RentalEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
@@ -122,6 +122,10 @@ public class RentalEntity implements Serializable {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public static Builder newBuilder(){
+		return new Builder();
 	}
 	
 	public static class Builder{

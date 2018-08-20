@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.junit.Before;
@@ -21,11 +19,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.capgemini.dao.impl.AgencyDaoImpl;
+import com.capgemini.dao.impl.CarDaoImpl;
 import com.capgemini.dao.impl.EmployeeDaoImpl;
 import com.capgemini.domain.AddressEmbedded;
 import com.capgemini.domain.AgencyEntity;
 import com.capgemini.domain.CarEntity;
 import com.capgemini.domain.EmployeeEntity;
+import com.capgemini.domain.EmployeeSearchCriteria;
 import com.capgemini.domain.MandatoryValueNotFilledException;
 import com.capgemini.domain.PersonalDataEmbedded;
 import com.capgemini.domain.PositionEntity;
@@ -39,6 +39,9 @@ public class EmployeeDaoTest {
 	EmployeeDaoImpl employeeDao;
 	
 	@Autowired
+	CarDaoImpl carDao;
+	
+	@Autowired
 	AgencyDaoImpl agencyDao;
 	
 	@Before
@@ -50,7 +53,7 @@ public class EmployeeDaoTest {
 				.withZipcode("01-520")
 				.withLocal("2")
 				.build();
-		
+
 		AgencyEntity sampleAgency = new AgencyEntity(sampleAddress,"141543789");
 		
 		PositionEntity samplePosition = new PositionEntity("developer");
@@ -68,6 +71,11 @@ public class EmployeeDaoTest {
 				.build();
 		
 		employeeDao.save(employee);
+		
+		
+		List<EmployeeEntity> listOfGuardians = new ArrayList<EmployeeEntity>();
+		listOfGuardians.add(employee);
+		
 	}
 	
 	@Test
@@ -79,7 +87,77 @@ public class EmployeeDaoTest {
 	
 	@Test
 	public void testShouldFindEmployeeByAgency(){
-		List<EmployeeEntity> actual = employeeDao.findEmployeesByAgency(1L);
+		EmployeeEntity expected = employeeDao.findAll().get(0);
+		List<EmployeeEntity> actual = employeeDao.findEmployeesByAgency(expected.getAgency().getId());
+		assertEquals("Albert",actual.get(0).getPersonalData().getFirstName());
+	}
+	
+	@Test
+	public void testShouldFindEmployeeByCar() throws MandatoryValueNotFilledException{
+		//given
+		List<EmployeeEntity> listOfGuardians = employeeDao.findAll();
+		CarEntity sampleCar = CarEntity.newBuilder()
+				.withType("Sedan")
+				.withBrand("BMW")
+				.withColor("black")
+				.withEngineCapacity(3000)
+				.withMileage(50000)
+				.withHorsePower(234)
+				.withYearOfProduction(2012)
+				.withGuardiansList(listOfGuardians)
+				.build();
+		carDao.save(sampleCar);
+		Long id = 1L;
+		//when
+		List<EmployeeEntity> actual = employeeDao.findEmployeesByCar(id);
+		//then
+		assertEquals(1,actual.size());
+		assertEquals("Albert",actual.get(0).getPersonalData().getFirstName());
+	}
+	
+	@Test
+	public void testShouldFindEmployeeByPosition(){
+		Long id = employeeDao.findAll().get(0).getId();
+		List<EmployeeEntity> actual = employeeDao.findEmployeesByPosition(id);
+		assertEquals("Albert",actual.get(0).getPersonalData().getFirstName());
+	}
+	
+	@Test
+	public void testShouldFindEmployeeByCriteriaWithAllFilled() throws MandatoryValueNotFilledException{
+		//given
+		List<EmployeeEntity> listOfGuardians = employeeDao.findAll();
+		CarEntity sampleCar = CarEntity.newBuilder()
+				.withType("Sedan")
+				.withBrand("BMW")
+				.withColor("black")
+				.withEngineCapacity(3000)
+				.withMileage(50000)
+				.withHorsePower(234)
+				.withYearOfProduction(2012)
+				.withGuardiansList(listOfGuardians)
+				.build();
+		carDao.save(sampleCar);
+		EmployeeEntity expected = employeeDao.findAll().get(0);
+		EmployeeSearchCriteria criteria = EmployeeSearchCriteria.newBuilder()
+				.withAgency(expected.getAgency().getId())
+				.withCar(carDao.findAll().get(0).getId())
+				.withPosition(expected.getPosition().getId())
+				.build();
+		List<EmployeeEntity> actual = employeeDao.findEmployeesByCriteria(criteria);
+		assertEquals("Albert",actual.get(0).getPersonalData().getFirstName());
+	}
+	
+	@Test
+	public void testShouldFindEmployeeByCriteriaWithAgencyAndPositionFilled() throws MandatoryValueNotFilledException{
+		//given
+		EmployeeEntity expected = employeeDao.findAll().get(0);
+		EmployeeSearchCriteria criteria = EmployeeSearchCriteria.newBuilder()
+				.withAgency(expected.getAgency().getId())
+				.withPosition(expected.getPosition().getId())
+				.build();
+		//when
+		List<EmployeeEntity> actual = employeeDao.findEmployeesByCriteria(criteria);
+		//then
 		assertEquals("Albert",actual.get(0).getPersonalData().getFirstName());
 	}
 	

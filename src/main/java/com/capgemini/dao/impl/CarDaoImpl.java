@@ -25,12 +25,24 @@ public class CarDaoImpl extends AbstractDao<CarEntity, Long> implements CarDao {
 	}
 
 	@Override
-	public List<CarEntity> findByGuardian(long guardianId) {
+	public List<CarEntity> findByGuardian(Long guardianId) {
 		EmployeeEntity guardian = entityManager.getReference(EmployeeEntity.class, guardianId);
 		TypedQuery<CarEntity> query = entityManager.createQuery(
-			 	"select car from CarEntity car where :guardian member of listOfGuardians" , CarEntity.class);
+			 	"select car from CarEntity car where :guardian member of car.listOfGuardians" , CarEntity.class);
 		query.setParameter("guardian", guardian); 	
 		return query.getResultList();
+	}
+	
+	@Override
+	public List<CarEntity> findCarsWithGivenNumberOfRenters(Long numberOfRenters){
+		
+		TypedQuery<CarEntity> query = entityManager.createQuery(
+			 	"select car from CarEntity car "
+			 	+ "where car.id in "
+			 	+ "(select r.car.id from RentalEntity r group by r.car.id having count(distinct r.customer) > :renters)", CarEntity.class);
+		query.setParameter("renters", numberOfRenters);
+		return query.getResultList();
+		
 	}
 
 }

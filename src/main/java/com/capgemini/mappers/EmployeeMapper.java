@@ -43,6 +43,9 @@ public class EmployeeMapper {
 	
 	public static List<EmployeeTO> onTOs(List<EmployeeEntity> employeeEntities) throws MandatoryValueNotFilledException {
 		
+		if (employeeEntities == null)
+			return null;
+		
 		List<EmployeeTO> mapped = new ArrayList<EmployeeTO>();
 		for(EmployeeEntity employee : employeeEntities){
 			mapped.add(onTO(employee));
@@ -52,6 +55,9 @@ public class EmployeeMapper {
 
 	public static List<EmployeeEntity> onEntities(List<EmployeeTO> employeeTOs) throws MandatoryValueNotFilledException {
 		
+		if (employeeTOs == null)
+			return null;
+		
 		List<EmployeeEntity> mapped = new ArrayList<EmployeeEntity>();
 		for(EmployeeTO employee : employeeTOs){
 			mapped.add(onEntity(employee));
@@ -60,6 +66,9 @@ public class EmployeeMapper {
 	}
 	
 	public static List<Long> onIds(List<EmployeeEntity> employeeEntities) {
+		
+		if (employeeEntities == null)
+			return null;
 		
 		List<Long> mapped = new ArrayList<Long>();
 		for(EmployeeEntity employee : employeeEntities){

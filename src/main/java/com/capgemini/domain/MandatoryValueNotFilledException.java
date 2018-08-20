@@ -6,7 +6,7 @@ public class MandatoryValueNotFilledException extends Exception {
 	
 	public MandatoryValueNotFilledException()
 	  {
-		super("A Mandatory");
+		super("All mandatory valued must be filled");
 	  }
 
 }

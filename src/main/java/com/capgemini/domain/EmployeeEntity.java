@@ -27,7 +27,7 @@ public class EmployeeEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Embedded
@@ -44,7 +44,9 @@ public class EmployeeEntity implements Serializable {
 	@JoinColumn(name = "position_id")
 	private PositionEntity position;
 	
-
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "listOfGuardians")
+	private List<CarEntity> carList;
+	
 	public EmployeeEntity() {}
 
 	public EmployeeEntity(Builder builder) {
@@ -52,6 +54,7 @@ public class EmployeeEntity implements Serializable {
 		this.address = builder.address;
 		this.agency = builder.agency;
 		this.position = builder.position;
+		this.carList = builder.cars;
 	}
 	
 	public PersonalDataEmbedded getPersonalData() {
@@ -94,19 +97,28 @@ public class EmployeeEntity implements Serializable {
 		return address;
 	}
 	
+	public List<CarEntity> getCarList() {
+		return carList;
+	}
+
+	public void setCarList(List<CarEntity> cars) {
+		this.carList = cars;
+	}
+	
 	public static Builder newBuilder(){
 		return new Builder();
 	}
 	
 	public static class Builder {
 		
-		private long id;
+		private Long id;
 		private PersonalDataEmbedded personalData;
 		private AddressEmbedded address;
 		private AgencyEntity agency;
 		private PositionEntity position;
+		private List<CarEntity> cars;
 		
-		public Builder withId(long id){
+		public Builder withId(Long id){
 			this.id = id;
 			return this;
 		}
@@ -131,6 +143,11 @@ public class EmployeeEntity implements Serializable {
 			return this;
 		}
 		
+		public Builder withCars(List<CarEntity> cars){
+			this.cars = cars;
+			return this;
+		}
+		
 		public EmployeeEntity build() throws MandatoryValueNotFilledException {
 			if(isFilled()){
 			return new EmployeeEntity(this);
@@ -139,7 +156,7 @@ public class EmployeeEntity implements Serializable {
 		}
 		
 		private boolean isFilled(){
-			return Stream.of(personalData,agency,position)
+			return Stream.of(personalData,address,agency,position)
 			      .noneMatch(Objects::isNull);
 		}
 		

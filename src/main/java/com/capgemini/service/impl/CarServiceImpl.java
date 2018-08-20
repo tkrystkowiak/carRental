@@ -1,5 +1,6 @@
 package com.capgemini.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.dao.CarDao;
 import com.capgemini.dao.EmployeeDao;
+import com.capgemini.dao.RentalDao;
 import com.capgemini.domain.MandatoryValueNotFilledException;
 import com.capgemini.mappers.CarMapper;
 import com.capgemini.mappers.EmployeeMapper;
@@ -21,11 +23,13 @@ public class CarServiceImpl implements CarService {
 	
 	private CarDao carDao;
 	private EmployeeDao employeeDao;
+	private RentalDao rentalDao;
 	
 	@Autowired
-	public CarServiceImpl(CarDao carDao,EmployeeDao employeeDao){
+	public CarServiceImpl(CarDao carDao,EmployeeDao employeeDao,RentalDao rentalDao){
 		this.carDao = carDao;
 		this.employeeDao = employeeDao;
+		this.rentalDao = rentalDao;
 	}
 	
 	@Override
@@ -60,6 +64,17 @@ public class CarServiceImpl implements CarService {
 	public List<CarTO> findByGuardian(long guardianId) throws MandatoryValueNotFilledException {
 		
 		return CarMapper.onTOs(carDao.findByGuardian(guardianId));
+	}
+
+	@Override
+	public Long countCarsRentedInPeriod(Date startDate,Date endDate) {
+		return rentalDao.countCarsRentedInTimePeriod(startDate, endDate);
+	}
+
+	@Override
+	public List<CarTO> findCarsWithMoreDistinctRentersThan(Long numberOfRenters) throws MandatoryValueNotFilledException {
+		
+		return CarMapper.onTOs(carDao.findCarsWithGivenNumberOfRenters(numberOfRenters));
 	}
 	
 	

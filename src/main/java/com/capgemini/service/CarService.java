@@ -1,5 +1,6 @@
 package com.capgemini.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.capgemini.domain.MandatoryValueNotFilledException;
@@ -18,5 +19,9 @@ public interface CarService {
 	List<CarTO> findByTypeAndBrand(String type, String brand) throws MandatoryValueNotFilledException;
 	
 	List<CarTO> findByGuardian(long guardianId) throws MandatoryValueNotFilledException;
+
+	Long countCarsRentedInPeriod(Date stratDate, Date endDate);
+	
+	List<CarTO> findCarsWithMoreDistinctRentersThan(Long numberOfRenters) throws MandatoryValueNotFilledException;
 	
 }

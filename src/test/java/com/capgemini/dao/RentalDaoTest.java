@@ -5,120 +5,76 @@ import static org.junit.Assert.*;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.capgemini.dao.impl.CarDaoImpl;
-import com.capgemini.dao.impl.EmployeeDaoImpl;
 import com.capgemini.dao.impl.RentalDaoImpl;
 import com.capgemini.domain.AddressEmbedded;
 import com.capgemini.domain.AgencyEntity;
 import com.capgemini.domain.CarEntity;
 import com.capgemini.domain.CustomerEntity;
-import com.capgemini.domain.EmployeeEntity;
 import com.capgemini.domain.MandatoryValueNotFilledException;
 import com.capgemini.domain.PersonalDataEmbedded;
-import com.capgemini.domain.PositionEntity;
 import com.capgemini.domain.RentalEntity;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-@ActiveProfiles("hsql")
-public class CarDaoTest {
-	
-	@PersistenceContext
-	EntityManager enitityManager;
-	
-	@Autowired
-	CarDaoImpl carDao;
-	
-	@Autowired
-	EmployeeDaoImpl employeeDao;
+public class RentalDaoTest {
 	
 	@Autowired
 	RentalDaoImpl rentalDao;
 	
-	@Before
-	public void initialization() throws MandatoryValueNotFilledException, ParseException{
-		AddressEmbedded sampleAddress = AddressEmbedded.newBuilder()
-				.withCity("Warszawa")
-				.withStreet("Krajewskiego")
-				.withZipcode("01-520")
-				.withLocal("2")
+	@Test
+	public void shouldCountNumberOfRentedCars() throws MandatoryValueNotFilledException, ParseException{
+		//given
+		RentalEntity first = RentalEntity.newBuilder()
+				.withCar(getSampleCar("black","BMW","Sedan"))
+				.withRentAgencyId(getSampleAgency())
+				.withReturnAgencyId(getSampleAgency())
+				.withRentDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-13").getTime()))
+				.withReturnDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-23").getTime()))
+				.withCharge(100)
+				.withCustomer(getSampleCustomer())
 				.build();
 		
-		AgencyEntity sampleAgency = new AgencyEntity(sampleAddress,"141543789");
-		PositionEntity samplePosition = new PositionEntity("developer");
-		EmployeeEntity employee = EmployeeEntity.newBuilder()
-				.withPersonalData(PersonalDataEmbedded.newBuilder()
-						.withFirstName("Albert")
-						.withLastName("Einstein")
-						.withBirthDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("1989-02-28").getTime()))
-						.withPhoneNumber("987124098")
-						.build())
-				.withAddress(sampleAddress)
-				.withPosition(samplePosition)
-				.withAgency(sampleAgency)
+		RentalEntity second = RentalEntity.newBuilder()
+				.withCar(getSampleCar("red","Ferrari","Sport"))
+				.withRentAgencyId(getSampleAgency())
+				.withReturnAgencyId(getSampleAgency())
+				.withRentDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-10").getTime()))
+				.withReturnDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-24").getTime()))
+				.withCharge(100)
+				.withCustomer(getSampleCustomer())
 				.build();
 		
-		List<EmployeeEntity> listOfGuardians = new ArrayList<EmployeeEntity>();
-		listOfGuardians.add(employee);
-		
-		CarEntity car = CarEntity.newBuilder()
-				.withType("Sedan")
-				.withBrand("BMW")
-				.withColor("black")
-				.withEngineCapacity(3000)
-				.withMileage(50000)
-				.withHorsePower(234)
-				.withYearOfProduction(2012)
-				.withGuardiansList(listOfGuardians)
+		RentalEntity third = RentalEntity.newBuilder()
+				.withCar(getSampleCar("silver","Skoda","Combi"))
+				.withRentAgencyId(getSampleAgency())
+				.withReturnAgencyId(getSampleAgency())
+				.withRentDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-16").getTime()))
+				.withReturnDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-24").getTime()))
+				.withCharge(100)
+				.withCustomer(getSampleCustomer())
 				.build();
-		carDao.save(car);
-	}
-	
-	@Test
-	public void testShouldHaveOneCarInMemory() throws MandatoryValueNotFilledException {
-		List<CarEntity> carList = carDao.findAll();
-		assertEquals(1,carList.size());	
-	}
-	
-	@Test
-	public void testShouldThrowException()  {
-		boolean thrown = false;
-		try {
-			CarEntity car = CarEntity.newBuilder().withType("Sedan").withBrand("BMW").withColor("black").build();
-		} catch (MandatoryValueNotFilledException e) {
-			thrown = true;
-		}
-		assertTrue(thrown);
-	}
-	
-	@Test
-	public void testShouldFindCarByEmployee() throws MandatoryValueNotFilledException, ParseException{
+		rentalDao.save(first);
+		rentalDao.save(second);
+		rentalDao.save(third);
+		Date startDate = new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-15").getTime());
+		Date endDate = new Date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-20").getTime());
+		//when
+		Long nuberOfCars = rentalDao.countCarsRentedInTimePeriod(startDate, endDate);
+		Long expected = 2L;
+		assertEquals(expected,nuberOfCars);
 		
-		CarEntity car = carDao.findAll().get(0);
-		Long guardianId = car.getListOfGuardians().get(0).getId();
-		assertEquals(car.getId(),carDao.findByGuardian(guardianId).get(0).getId());
-	}
-	
-	@Test
-	public void testShouldFindCarByBrandAndType() throws MandatoryValueNotFilledException {
-		List<CarEntity> carList = carDao.findByTypeAndBrand("Sedan", "BMW");
-		assertEquals("BMW",carList.get(0).getBrand());
 	}
 	
 	@Test
@@ -161,9 +117,11 @@ public class CarDaoTest {
 				rentalDao.save(third);
 				
 				//when
-				List<CarEntity> cars = carDao.findCarsWithGivenNumberOfRenters(0L);
+				List<Long> cars = rentalDao.countNumberOfDistinctRenters();
+				Long expected = 2L;
 				//then
-				assertEquals(2,cars.size());
+				assertTrue(cars.isEmpty());
+				
 	}
 	
 	private CarEntity getSampleCar(String color, String brand, String type) throws MandatoryValueNotFilledException{

@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.capgemini.domain.RentalEntity.Builder;
+
 @Entity
 @Table(name = "CUSTOMERS")
 public class CustomerEntity implements Serializable {
@@ -17,7 +19,7 @@ public class CustomerEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Embedded
@@ -26,7 +28,7 @@ public class CustomerEntity implements Serializable {
 	@Embedded
 	private AddressEmbedded address;
 	
-	@Column(nullable = false, length = 12)
+	@Column(nullable = false, length = 16)
 	private String creditCardNumber;
 	
 	public AddressEmbedded getAddress() {
@@ -80,6 +82,10 @@ public class CustomerEntity implements Serializable {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public static Builder newBuilder(){
+		return new Builder();
 	}
 	
 	public static class Builder{
