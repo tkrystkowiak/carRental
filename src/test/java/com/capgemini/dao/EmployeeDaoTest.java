@@ -26,9 +26,9 @@ import com.capgemini.domain.AgencyEntity;
 import com.capgemini.domain.CarEntity;
 import com.capgemini.domain.EmployeeEntity;
 import com.capgemini.domain.EmployeeSearchCriteria;
-import com.capgemini.domain.MandatoryValueNotFilledException;
 import com.capgemini.domain.PersonalDataEmbedded;
 import com.capgemini.domain.PositionEntity;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -106,8 +106,7 @@ public class EmployeeDaoTest {
 				.withYearOfProduction(2012)
 				.withGuardiansList(listOfGuardians)
 				.build();
-		carDao.save(sampleCar);
-		Long id = 1L;
+		Long id = carDao.save(sampleCar).getId();
 		//when
 		List<EmployeeEntity> actual = employeeDao.findEmployeesByCar(id);
 		//then

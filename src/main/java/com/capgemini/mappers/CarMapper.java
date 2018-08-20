@@ -3,13 +3,22 @@ package com.capgemini.mappers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.capgemini.domain.CarEntity;
-import com.capgemini.domain.MandatoryValueNotFilledException;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 import com.capgemini.types.CarTO;
 
+@Component
 public class CarMapper {
+	
+	private final EmployeeMapper employeeMapper;
+	
+	public CarMapper(EmployeeMapper employeeMapper) {
+		this.employeeMapper = employeeMapper;
+	}
 
-	public static CarTO onTO(CarEntity carEntity) throws MandatoryValueNotFilledException {
+	public CarTO onTO(CarEntity carEntity) throws MandatoryValueNotFilledException {
 
 		if (carEntity == null)
 			return null;
@@ -23,13 +32,13 @@ public class CarMapper {
 				.withHorsePower(carEntity.getHorsePower())
 				.withMileage(carEntity.getMileage())
 				.withYearOfProduction(carEntity.getYearOfProduction())
-				.withGuardiansList(EmployeeMapper.onTOs(carEntity.getListOfGuardians()))
+				.withGuardiansList(employeeMapper.onTOs(carEntity.getListOfGuardians()))
 				.build();
 		return mapped;
 
 	}
 
-	public static CarEntity onEntity(CarTO carTO) throws MandatoryValueNotFilledException {
+	public CarEntity onEntity(CarTO carTO) throws MandatoryValueNotFilledException {
 
 		if (carTO == null)
 			return null;
@@ -43,13 +52,13 @@ public class CarMapper {
 				.withHorsePower(carTO.getHorsePower())
 				.withMileage(carTO.getMileage())
 				.withYearOfProduction(carTO.getYearOfProduction())
-				.withGuardiansList(EmployeeMapper.onEntities(carTO.getListOfGuardians()))
+				.withGuardiansList(employeeMapper.onEntities(carTO.getListOfGuardians()))
 				.build();
 		return mapped;
 
 	}
 	
-	public static List<CarTO> onTOs(List<CarEntity> carEntities) throws MandatoryValueNotFilledException {
+	public List<CarTO> onTOs(List<CarEntity> carEntities) throws MandatoryValueNotFilledException {
 		
 		List<CarTO> mapped = new ArrayList<CarTO>();
 		for(CarEntity car : carEntities){
@@ -58,7 +67,7 @@ public class CarMapper {
 		return mapped;
 	}
 
-	public static List<CarEntity> onEntities(List<CarTO> carTOs) throws MandatoryValueNotFilledException {
+	public List<CarEntity> onEntities(List<CarTO> carTOs) throws MandatoryValueNotFilledException {
 		
 		List<CarEntity> mapped = new ArrayList<CarEntity>();
 		for(CarTO car : carTOs){

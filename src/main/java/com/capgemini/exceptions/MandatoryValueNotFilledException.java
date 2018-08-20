@@ -1,4 +1,4 @@
-package com.capgemini.domain;
+package com.capgemini.exceptions;
 
 public class MandatoryValueNotFilledException extends Exception {
 

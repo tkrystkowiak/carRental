@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
+
 @Embeddable
 public class PersonalDataEmbedded {
 	

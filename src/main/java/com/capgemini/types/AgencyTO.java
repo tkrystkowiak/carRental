@@ -6,18 +6,18 @@ public class AgencyTO {
 	
 
 	private Long id;
-	private AddressEmbedded address;
+	private AddressTO address;
 	private String phoneNumber;
 	
 	public AgencyTO() {
 	}
 
-	public AgencyTO(AddressEmbedded address, String phoneNumber) {
+	public AgencyTO(AddressTO address, String phoneNumber) {
 		this.address = address;
 		this.phoneNumber = phoneNumber;
 	}
 
-	public AddressEmbedded getAddress() {
+	public AddressTO getAddress() {
 		return address;
 	}
 
@@ -25,7 +25,7 @@ public class AgencyTO {
 		this.id = id;
 	}
 
-	public void setAddress(AddressEmbedded address) {
+	public void setAddress(AddressTO address) {
 		this.address = address;
 	}
 

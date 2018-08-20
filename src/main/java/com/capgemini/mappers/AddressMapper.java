@@ -1,12 +1,15 @@
 package com.capgemini.mappers;
 
+import org.springframework.stereotype.Component;
+
 import com.capgemini.domain.AddressEmbedded;
-import com.capgemini.domain.MandatoryValueNotFilledException;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 import com.capgemini.types.AddressTO;
 
+@Component
 public class AddressMapper {
 	
-	public static AddressTO onTO(AddressEmbedded address) throws MandatoryValueNotFilledException{
+	public AddressTO onTO(AddressEmbedded address) throws MandatoryValueNotFilledException{
 		
 		if (address == null)
 			return null;
@@ -19,7 +22,7 @@ public class AddressMapper {
 		return mapped;
 	}
 	
-	public static AddressEmbedded onEntity(AddressTO addressTO) throws MandatoryValueNotFilledException{
+	public AddressEmbedded onEntity(AddressTO addressTO) throws MandatoryValueNotFilledException{
 		
 		if (addressTO == null)
 			return null;

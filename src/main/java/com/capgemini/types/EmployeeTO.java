@@ -4,9 +4,9 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import com.capgemini.domain.AddressEmbedded;
-import com.capgemini.domain.MandatoryValueNotFilledException;
 import com.capgemini.domain.PersonalDataEmbedded;
 import com.capgemini.domain.PositionEntity;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 
 public class EmployeeTO {
 	

@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.capgemini.dao.impl.AgencyDaoImpl;
 import com.capgemini.domain.AddressEmbedded;
 import com.capgemini.domain.AgencyEntity;
-import com.capgemini.domain.MandatoryValueNotFilledException;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

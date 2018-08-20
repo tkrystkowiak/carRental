@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
+
 @Entity
 @Table(name = "RENTALS")
 public class RentalEntity implements Serializable {
@@ -26,22 +28,22 @@ public class RentalEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "cutomer_id")
 	private CustomerEntity customer;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "car_id")
 	private CarEntity car;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "rent_agency_id")
 	private AgencyEntity rentAgencyId;
 	
 	@Column(name = "rent_date",nullable = false)
 	private Date rentDate;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "return_agency_id")
 	private AgencyEntity returnAgencyId;
 	

@@ -21,9 +21,9 @@ import com.capgemini.domain.AddressEmbedded;
 import com.capgemini.domain.AgencyEntity;
 import com.capgemini.domain.CarEntity;
 import com.capgemini.domain.CustomerEntity;
-import com.capgemini.domain.MandatoryValueNotFilledException;
 import com.capgemini.domain.PersonalDataEmbedded;
 import com.capgemini.domain.RentalEntity;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

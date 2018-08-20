@@ -1,11 +1,14 @@
 package com.capgemini.mappers;
 
+import org.springframework.stereotype.Component;
+
 import com.capgemini.domain.PositionEntity;
 import com.capgemini.types.PositionTO;
 
+@Component
 public class PositionMapper {
 	
-	public static PositionTO onTO(PositionEntity positionEntity){
+	public PositionTO onTO(PositionEntity positionEntity){
 		
 		if (positionEntity == null)
 			return null;
@@ -13,7 +16,7 @@ public class PositionMapper {
 		return new PositionTO(positionEntity.getId(),positionEntity.getTitle());
 	}
 	
-	public static PositionEntity onEntity(PositionTO positionTO){
+	public PositionEntity onEntity(PositionTO positionTO){
 		
 		if (positionTO == null)
 			return null;

@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import com.capgemini.domain.MandatoryValueNotFilledException;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 
 public class PersonalDataTO {
 

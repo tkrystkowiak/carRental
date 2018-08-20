@@ -3,14 +3,15 @@ package com.capgemini.service;
 import java.sql.Date;
 import java.util.List;
 
-import com.capgemini.domain.MandatoryValueNotFilledException;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
+import com.capgemini.exceptions.NoSuchElementException;
 import com.capgemini.types.CarTO;
 
 public interface CarService {
 	
 	void addCar(CarTO carTO) throws MandatoryValueNotFilledException;
 	
-	void deleteCar(long carId);
+	void deleteCar(long carId) throws NoSuchElementException;
 	
 	void updateCar(CarTO carTO) throws MandatoryValueNotFilledException;
 	

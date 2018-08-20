@@ -14,9 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.capgemini.domain.RentalEntity.Builder;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 
 @Entity
 @Table(name = "CARS")
@@ -52,6 +54,9 @@ public class CarEntity implements Serializable {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "car_employee", joinColumns = { @JoinColumn(name = "car_id") },inverseJoinColumns = { @JoinColumn(name = "employee_id") })
 	private List<EmployeeEntity> listOfGuardians;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="car")
+	private List<RentalEntity> rentals;
 
 	public CarEntity() {
 	}
@@ -68,6 +73,7 @@ public class CarEntity implements Serializable {
 		this.horsePower = builder.horsePower;
 		this.yearOfProduction = builder.yearOfProduction;
 		this.listOfGuardians = builder.listOfGuardians;
+		this.rentals = builder.rentals;
 	}
 	
 	public String getType() {
@@ -142,6 +148,14 @@ public class CarEntity implements Serializable {
 		this.listOfGuardians = listOfGuardians;
 	}
 	
+	public List<RentalEntity> getRentals() {
+		return rentals;
+	}
+
+	public void setRentals(List<RentalEntity> rentals) {
+		this.rentals = rentals;
+	}
+	
 	public static Builder newBuilder() {
         return new Builder();
     }
@@ -157,6 +171,7 @@ public class CarEntity implements Serializable {
 		private Integer horsePower;
 		private Integer yearOfProduction;
 		private List<EmployeeEntity> listOfGuardians;
+		private List<RentalEntity> rentals;
 		
 		public Builder withId(long id){
 			this.id = id;
@@ -200,6 +215,11 @@ public class CarEntity implements Serializable {
 		
 		public Builder withGuardiansList(List<EmployeeEntity> listOfGuardians){
 			this.listOfGuardians = listOfGuardians;
+			return this;
+		}
+		
+		public Builder withRentals(List<RentalEntity> rentals){
+			this.rentals = rentals;
 			return this;
 		}
 		

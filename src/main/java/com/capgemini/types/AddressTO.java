@@ -3,7 +3,7 @@ package com.capgemini.types;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import com.capgemini.domain.MandatoryValueNotFilledException;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 
 public class AddressTO {
 	

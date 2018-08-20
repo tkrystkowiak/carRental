@@ -1,12 +1,15 @@
 package com.capgemini.mappers;
 
-import com.capgemini.domain.MandatoryValueNotFilledException;
+import org.springframework.stereotype.Component;
+
 import com.capgemini.domain.PersonalDataEmbedded;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 import com.capgemini.types.PersonalDataTO;
 
+@Component
 public class PersonalDataMapper {
 	
-	public static PersonalDataTO onTO(PersonalDataEmbedded personalData) throws MandatoryValueNotFilledException{
+	public PersonalDataTO onTO(PersonalDataEmbedded personalData) throws MandatoryValueNotFilledException{
 		
 		if (personalData == null)
 			return null;
@@ -19,7 +22,7 @@ public class PersonalDataMapper {
 		return mapped;
 	}
 	
-	public static PersonalDataEmbedded onEntity(PersonalDataTO personalDataTO) throws MandatoryValueNotFilledException{
+	public PersonalDataEmbedded onEntity(PersonalDataTO personalDataTO) throws MandatoryValueNotFilledException{
 		
 		if (personalDataTO == null)
 			return null;

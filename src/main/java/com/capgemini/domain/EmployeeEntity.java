@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.capgemini.domain.CarEntity.Builder;
+import com.capgemini.exceptions.MandatoryValueNotFilledException;
 
 
 @Entity
